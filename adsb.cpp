@@ -13,6 +13,7 @@ WiFiClient client;  // or WiFiClientSecure for HTTPS
 #include "mapdata.h"
 JsonDocument thisADSB;
 #define LARGEFONT u8g2_font_profont29_tr
+#define MEDIUMFONT u8g2_font_crox3hb_tn										
 #define SMALLFONT u8g2_font_profont22_tr
 
 float latMax;    // top of the screen display
@@ -172,7 +173,7 @@ void get_route_info(Aircraft *thisAircraft) {
 
 void read_ADSB() {
   http.useHTTP10(true);
-  http.begin(client, "http://192.168.0.199:8080/data/aircraft.json");
+  http.begin(client, adsbSource);
   int httpResponseCode = http.GET();
   Serial.println("Reading stream data");
   // Parse response
@@ -184,9 +185,6 @@ void read_ADSB() {
   }
   http.end();
 }
-
-
-
 
 uint16_t map_alt_to_color(uint16_t alt_baro) {
   // Loop through the array of altitude ranges
@@ -346,6 +344,7 @@ void show_side_bar(Aircraft thisAircraft) {
   gfx->println(buffer);
   snprintf(buffer, sizeof(buffer), "Route: %s", thisAircraft.airportCodes);
   gfx->println(buffer);
+	 gfx->setFont( MEDIUMFONT  );							
   snprintf(buffer, sizeof(buffer), "From: %s, %s", thisAircraft.departureCity, thisAircraft.departureCountry);
   gfx->println(buffer);
   snprintf(buffer, sizeof(buffer), "%s", thisAircraft.departureName);
@@ -354,6 +353,7 @@ void show_side_bar(Aircraft thisAircraft) {
   gfx->println(buffer);
   snprintf(buffer, sizeof(buffer), "%s", thisAircraft.arrivalName);
   gfx->println(buffer);
+	    gfx->setFont( LARGEFONT  );						   
   snprintf(buffer, sizeof(buffer), "Speed: %d", thisAircraft.gs);
   gfx->println(buffer);
   snprintf(buffer, sizeof(buffer), "Alt: %d", thisAircraft.alt_baro);

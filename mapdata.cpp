@@ -155,18 +155,19 @@ float lakeWinnipesaukeeShoreline[][2] = {
   { 43.530, -71.253 }
 };
 
-
+// defined colors include BLACK, WHITE, NAVY, DARKGREEN, OLIVE, GREEN, BLIE, YELLOW, WHITE, ORANGE
+// See arduino_GFX.h for more - or define your own.  Colors are RGB565 hex L 0xffe0 is yellow
 // Mapset data initialization
 Mapsetbase myMapSets[] = {
-  { ksfmRunway7, sizeof(ksfmRunway7) / sizeof(ksfmRunway7[0]), NULL },
-  { ksfmRunway14, sizeof(ksfmRunway14) / sizeof(ksfmRunway14[0]), NULL },
-  { coastCoordinates, sizeof(coastCoordinates) / sizeof(coastCoordinates[0]), NULL },
+  { ksfmRunway7, sizeof(ksfmRunway7) / sizeof(ksfmRunway7[0]), YELLOW },
+  { ksfmRunway14, sizeof(ksfmRunway14) / sizeof(ksfmRunway14[0]), YELLOW },
+  { coastCoordinates, sizeof(coastCoordinates) / sizeof(coastCoordinates[0]), -1 },
   { sebagoLakeOutline, sizeof(sebagoLakeOutline) / sizeof(sebagoLakeOutline[0]), BLUE },
-  { PWMrunway18_36, sizeof(PWMrunway18_36) / sizeof(PWMrunway18_36[0]), NULL },
-  { PWMrunway11_29, sizeof(PWMrunway11_29) / sizeof(PWMrunway11_29[0]), NULL },
+  { PWMrunway18_36, sizeof(PWMrunway18_36) / sizeof(PWMrunway18_36[0]), -1 },
+  { PWMrunway11_29, sizeof(PWMrunway11_29) / sizeof(PWMrunway11_29[0]), -1 },
   { lakeWinnipesaukeeShoreline, sizeof(lakeWinnipesaukeeShoreline) / sizeof(lakeWinnipesaukeeShoreline[0]), BLUE },
-  { PSMrunway16_34, sizeof(PSMrunway16_34) / sizeof(PSMrunway16_34[0]), NULL },  
- { DAWrunway15_33, sizeof(DAWrunway15_33) / sizeof(DAWrunway15_33[0]), NULL }  
+  { PSMrunway16_34, sizeof(PSMrunway16_34) / sizeof(PSMrunway16_34[0]), YELLOW },  
+ { DAWrunway15_33, sizeof(DAWrunway15_33) / sizeof(DAWrunway15_33[0]), YELLOW }  
 
 };
 

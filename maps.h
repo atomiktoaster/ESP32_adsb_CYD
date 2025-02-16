@@ -4,6 +4,6 @@
 extern Arduino_RGB_Display *gfx;
 
 void draw_map_outline();
-void fillPolygon(int *x, int *y, int numPoints, uint16_t color);
-void fillPolygonLL(float latLon[][2], int numPoints, uint16_t color);
+void fill_polygon(int *x, int *y, int numPoints, uint16_t color);
+void fill_polygon_latlon(float latLon[][2], int numPoints, uint16_t color);
 

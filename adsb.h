@@ -47,6 +47,7 @@ extern float defaultLat;
 extern float defaultLon;
 
 extern float lonRange;
+extern const char *adsbSource;
 
 struct Aircraft {
   char hex[7];
