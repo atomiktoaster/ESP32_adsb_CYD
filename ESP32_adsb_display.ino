@@ -11,10 +11,12 @@
 // SETUP VALUES HERE
 // un comment the wifi lines or create a secrets.h
 // *****************************************
-#include "secrets.h"
+#if __has_include("secrets.h")
+   #include "secrets.h"
+#endif
+
 // const char *ssid = "YOUR WIFI HERE";                    // Replace with your
-// WiFi SSID const char *password = "YOUR WIFI PASSWORD HERE";  // Replace with
-// your WiFi password
+// const char *password = "YOUR WIFI PASSWORD HERE";  // Replace with
 const char *adsbSource = "http://192.168.0.199:8080/data/aircraft.json";
 uint16_t screenWidth = 800;
 uint16_t screenHeight = 480;

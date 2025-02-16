@@ -13,7 +13,7 @@ WiFiClient client;  // or WiFiClientSecure for HTTPS
 #include "mapdata.h"
 JsonDocument thisADSB;
 #define LARGEFONT u8g2_font_profont29_tr
-#define MEDIUMFONT u8g2_font_crox3hb_tn										
+#define MEDIUMFONT u8g2_font_profont22_tr										
 #define SMALLFONT u8g2_font_profont22_tr
 
 float latMax;    // top of the screen display
