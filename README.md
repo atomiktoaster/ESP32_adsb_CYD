@@ -2,6 +2,10 @@
 This sketch loads ADSB data from a source and displays it on an ESP32 display. The example code uses a WaveShare 4.3 inch screen.
 https://adsb.im/home is a great place to start to run your own ADSB receiver.
 
+![adsb_map](./assets/adsb_map.jpg)
+
+![sidebar](./assets/sidebar.jpg)
+
 ## Libraries
 In addition to built-in libraries like WiFi and Http, this sketch requires these:
 
