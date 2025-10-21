@@ -2,7 +2,8 @@
 // Adruino GFX 1.5.x - requires ESP32 3.1.x board definitions
 #include <ArduinoJson.h>
 #include <Arduino_GFX_Library.h>
-#include <U8g2lib.h> //https://github.com/olikraus/u8g2
+// #include <U8g2lib.h> //https://github.com/olikraus/u8g2
+#include <TFT_eSPI.h>
 #include <WiFi.h>
 
 #include "adsb.h"
@@ -17,15 +18,15 @@
 
 // const char *ssid = "YOUR WIFI HERE";                    // Replace with your
 // const char *password = "YOUR WIFI PASSWORD HERE";  // Replace with
-const char *adsbSource = "http://192.168.0.199:8080/data/aircraft.json";
-uint16_t screenWidth = 800;
-uint16_t screenHeight = 480;
+const char *adsbSource = "https://api.adsb.lol/v2/point/30.376/-95.622/20";
+uint16_t screenWidth = 320;
+uint16_t screenHeight = 240;
 float screenPysicalWidth =
     95.26; // units do not matter. need this to calc pixel aspect ratio
 float screenPhysicalHeight = 54.3;
 
-float centerLat = 43.386667;
-float centerLon = -70.71973;
+float centerLat = 30.376;
+float centerLon = -95.622;
 
 // ***  add mapping data to mapdata.cpp - airports, coastlines, roads, lakes,
 // etc
@@ -36,33 +37,40 @@ unsigned long refreshTime = 0;
 float defaultLat = centerLat;
 float defaultLon = centerLon;
 
-Arduino_ESP32RGBPanel *rgbpanel = new Arduino_ESP32RGBPanel(
-    5 /* DE */, 3 /* VSYNC */, 46 /* HSYNC */, 7 /* PCLK */, 1 /* R0 */,
-    2 /* R1 */, 42 /* R2 */, 41 /* R3 */, 40 /* R4 */, 39 /* G0 */, 0 /* G1 */,
-    45 /* G2 */, 48 /* G3 */, 47 /* G4 */, 21 /* G5 */, 14 /* B0 */,
-    38 /* B1 */, 18 /* B2 */, 17 /* B3 */, 10 /* B4 */,
+// Arduino_ESP32RGBPanel *rgbpanel = new Arduino_ESP32RGBPanel(
+//     5 /* DE */, 3 /* VSYNC */, 46 /* HSYNC */, 7 /* PCLK */, 1 /* R0 */,
+//     2 /* R1 */, 42 /* R2 */, 41 /* R3 */, 40 /* R4 */, 39 /* G0 */, 0 /* G1 */,
+//     45 /* G2 */, 48 /* G3 */, 47 /* G4 */, 21 /* G5 */, 14 /* B0 */,
+//     38 /* B1 */, 18 /* B2 */, 17 /* B3 */, 10 /* B4 */,
 
-    // Esta configuración es la que mejor funciona de momento
-    0 /* hsync_polarity */, 8 /* hsync_front_porch */,
-    4 /* hsync_pulse_width */, 8 /* hsync_back_porch */, 0 /* vsync_polarity */,
-    8 /* vsync_front_porch */, 4 /* vsync_pulse_width */,
-    8 /* vsync_back_porch */, 1 /* pclk_active_neg */,
-    14000000 /* prefer_speed */);
+//     // Esta configuración es la que mejor funciona de momento
+//     0 /* hsync_polarity */, 8 /* hsync_front_porch */,
+//     4 /* hsync_pulse_width */, 8 /* hsync_back_porch */, 0 /* vsync_polarity */,
+//     8 /* vsync_front_porch */, 4 /* vsync_pulse_width */,
+//     8 /* vsync_back_porch */, 1 /* pclk_active_neg */,
+//     14000000 /* prefer_speed */);
 
-Arduino_RGB_Display *gfx =
-    new Arduino_RGB_Display(screenWidth /* width */, screenHeight /* height */,
-                            rgbpanel, 0 /* rotation */, true /* auto_flush */
-    );
+TFT_eSPI tft = TFT_eSPI();
+
+// Arduino_RGB_Display *gfx =
+//     new Arduino_RGB_Display(screenWidth /* width */, screenHeight /* height */,
+//                             rgbpanel, 0 /* rotation */, true /* auto_flush */
+//     );
 
 bool GFXinit() {
   Serial.println("GFX init...");
-  if (!gfx->begin()) {
-    Serial.println("gfx->begin() failed!");
-    return false;
-  }
-  gfx->fillScreen(0x003030);
-  BLset(HIGH);
-  gfx->println("Please wait...");
+  // if (!gfx->begin()) {
+  //   Serial.println("gfx->begin() failed!");
+  //   return false;
+  // }
+  tft.init();
+  tft.fillScreen(TFT_BLACK);
+  // BLset(HIGH);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
+  int x = 5;
+  int y = 10;
+  int fontNum = 2; 
+  tft.drawString("Please wait..", x, y, fontNum)
   return true;
 }
 
@@ -109,7 +117,7 @@ void TouchRead() {
         centerLon = defaultLon;
         zoom_screen(true);
         Serial.print(" sidebar closed, set lat lon to center on DEFAULT");
-        gfx->setTextBound(0, 0, screenWidth, screenHeight);
+        // gfx->setTextBound(0, 0, screenWidth, screenHeight);
       } else {
         Aircraft thisAircraft;
         if (isTouchNearPoint(thisTouch.x[0], thisTouch.y[0], 40,  &thisAircraft)) { // 20 pixels radius
